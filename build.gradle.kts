@@ -24,7 +24,7 @@ dependencies {
     }
 
     // kubernetes dependencies
-    compileOnly("io.fabric8:kubernetes-client:6.12.1")
+    api("io.fabric8:kubernetes-client:6.12.1")
 }
 
 tasks.named("shadowJar", ShadowJar::class) {
