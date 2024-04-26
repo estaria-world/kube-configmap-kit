@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     // kaml dependencies
-    api("com.charleskorn.kaml:kaml:0.56.0") {
+    compileOnly("com.charleskorn.kaml:kaml:0.56.0") {
         exclude("org.jetbrains.kotlin")
         exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-core")
         exclude("org.jetbrains.kotlinx", "kotlinx-coroutines-core-common")
@@ -24,7 +24,7 @@ dependencies {
     }
 
     // kubernetes dependencies
-    api("io.fabric8:kubernetes-client:6.12.1")
+    compileOnly("io.fabric8:kubernetes-client:6.12.1")
 }
 
 tasks.named("shadowJar", ShadowJar::class) {
