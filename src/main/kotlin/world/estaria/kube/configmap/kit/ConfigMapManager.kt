@@ -24,12 +24,13 @@ class ConfigMapManager(
      * @param serializer of the config class
      * @param value what you want to save in the config
      */
-    fun <C> migrateConfigToImage(name: String, serializer: KSerializer<C>, value: C) {
+    fun <C> createConfigMap(name: String, serializer: KSerializer<C>, value: C): C {
         val yamlString = Yaml.default.encodeToString(serializer, value)
         this.kubernetesClient.configMaps()
             .inNamespace(this.namespace)
             .resource(createConfigMap(name, yamlString))
             .create()
+        return value
     }
 
     /**
@@ -55,9 +56,9 @@ class ConfigMapManager(
      * @param serializer of the config class
      * @return config class instance
      */
-    fun <C> getConfig(name: String, serializer: KSerializer<C>): C {
+    fun <C> getConfig(name: String, serializer: KSerializer<C>): C? {
         val configMap = this.cachedConfigMaps[name] ?: getConfigMapFromKubernetes(name).get()
-        val string = configMap.data[name] ?: throw NullPointerException("failed to find $name config")
+        val string = configMap.data[name] ?: return null
         return Yaml.default.decodeFromString(serializer, string)
     }
 
