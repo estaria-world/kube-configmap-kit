@@ -8,9 +8,14 @@ import io.fabric8.kubernetes.client.KubernetesClientBuilder
 
 object KubeConfigMapKit {
 
-    fun initializeKubeConfig(): ConfigMapManager {
+    /**
+     * Initialize a kubernetes client for the configMaps
+     * @param namespace where the config is stored
+     * @return new instance of [ConfigMapManager]
+     */
+    fun initializeKubeConfig(namespace: String): ConfigMapManager {
         val kubernetesClient = KubernetesClientBuilder().build()
-        return ConfigMapManager(kubernetesClient)
+        return ConfigMapManager(namespace, kubernetesClient)
     }
 
 }
